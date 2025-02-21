@@ -1,9 +1,12 @@
 from flask import Blueprint, jsonify, request
 
-from src.http_types.http_response import HttpResponse
 from src.http_types.http_request import HttpRequest 
 
 from src.validators.events_creator_validator import events_creator_validator
+
+from src.controllers.events.events_creator import EventsCreator
+
+from src.model.repositories.events_repository import EventsRepository
 
 event_route_bp = Blueprint("event_route", __name__)
 
@@ -14,8 +17,9 @@ def create_new_event():
 
   http_request = HttpRequest(body=request.json)
 
-  print(http_request.body)
+  events_repository = EventsRepository()
+  events_creator = EventsCreator(events_repository)
 
-  http_response = HttpResponse(body={"message": "Hello World!"}, status_code=201)
+  http_response = events_creator.create(http_request)
 
   return jsonify(http_response.body), http_response.status_code 
