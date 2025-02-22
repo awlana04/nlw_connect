@@ -3,13 +3,13 @@ from src.http_types.http_response import HttpResponse
 
 from src.model.repositories.interfaces.subscribers_repository import SubscribersRepositoryInterface
 
-class SubsciberManager:
+class SubscribersManager:
   def __init__(self, subscribers_repository: SubscribersRepositoryInterface):
     self.__subscribers_repository = subscribers_repository
 
   def get_subscribers_by_link(self, http_request: HttpRequest) -> HttpResponse:
     link = http_request.param["link"]
-    event_id = http_request.pram["event_id"]
+    event_id = http_request.param["event_id"]
 
     subscribers = self.__subscribers_repository.select_subscribers_by_link(link, event_id)
 
@@ -41,7 +41,8 @@ class SubsciberManager:
           "count": len(formatted_subscriber),
           "subscribers": formatted_subscriber
         }
-      }
+      },
+      status_code=200
     )
 
   def __format_event_ranking(self, event_rankin: list) -> HttpResponse:
@@ -62,5 +63,6 @@ class SubsciberManager:
           "count": len(formatted_event_ranking),
           "ranking": formatted_event_ranking
         }
-      }
+      },
+      status_code=200
     )
