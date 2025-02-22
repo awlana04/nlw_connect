@@ -22,8 +22,8 @@ class EventsLinkRepository(EventsLinkRepositoryInterface):
 
         raise exception
 
-      def select_events_link(self, event_id: int, subscriber_id: int) -> EventsLink:
-        with DBConnectionHandler() as db:
-          data = (db.session.query(EventsLink).filter(EventsLink.event_id == event_id, subscriber_id == subscriber_id).one_or_none())
+  def select_events_link(self, event_id: int, subscriber_id: int) -> EventsLink:
+    with DBConnectionHandler() as db:
+      data = (db.session.query(EventsLink).filter(EventsLink.event_id == event_id, subscriber_id == subscriber_id).one_or_none())
 
-          return data
+      return data
